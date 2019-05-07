@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  BeerApp
 //
-//  Created by MTZ-5555-TRANSP on 06/05/19.
+//  Created by Ranieri Aguiar on 06/05/19.
 //  Copyright © 2019 Ranieri. All rights reserved.
 //
 
