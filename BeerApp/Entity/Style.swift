@@ -6,6 +6,6 @@
 //  Copyright © 2019 Ranieri. All rights reserved.
 //
 
-struct Style {
+struct Style: Codable {
     var name: String?
 }

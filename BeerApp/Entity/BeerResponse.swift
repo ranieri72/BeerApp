@@ -1,5 +1,5 @@
 //
-//  RequestReturn.swift
+//  BeerResponse.swift
 //  BeerApp
 //
 //  Created by Ranieri Aguiar on 06/05/19.

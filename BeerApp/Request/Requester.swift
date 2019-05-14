@@ -9,45 +9,58 @@
 import UIKit
 
 class Requester {
+    static let shared = Requester()
     
-    private static var activityIndicator = UIActivityIndicatorView()
-    private static var strLabel = UILabel()
-    private static let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    private var activityIndicator = UIActivityIndicatorView()
+    private var strLabel = UILabel()
+    private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
-    static func getStudents(_ view: UIViewController, sucess: @escaping (_ beers: [Beer]) -> Void, fail: @escaping (_ msg: String) -> Void) {
-        let url = getUrl(method: .getBeers)
+    func get(method: Constants.apiMethod, pageNumber: Int, _ view: UIViewController, sucess: @escaping (_ response: [Any]) -> Void, fail: @escaping (_ msg: String) -> Void) {
+        let url = getUrl(method: method, pageNumber: pageNumber)
         let request = URLRequest(url: URL(string: url)!)
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             
             DispatchQueue.main.async {
                 if error == nil {
-                    let beerResponse = try! JSONDecoder().decode(BeerResponse.self, from: data!)
-                    if let beers = beerResponse.data {
-                        sucess(beers)
-                    } else {
-                        fail("Nenhuma cerveja encontrada!")
+                    
+                    switch method {
+                    case .getBeers:
+                        let dataResponse = try! JSONDecoder().decode(BeerResponse.self, from: data!)
+                        if let beers = dataResponse.data {
+                            sucess(beers)
+                        } else {
+                            fail("Nenhuma cerveja encontrada!")
+                        }
+                    case .getStyle:
+                        let dataResponse = try! JSONDecoder().decode(StyleResponse.self, from: data!)
+                        if let styles = dataResponse.data {
+                            sucess(styles)
+                        } else {
+                            fail("Nenhuma estilo encontrado!")
+                        }
                     }
                 } else {
                     fail(error?.localizedDescription ?? "Erro ao recuperar os estudantes!")
                 }
-                removeActivityIndicator()
+                self.removeActivityIndicator()
             }
         }
         task.resume()
         addActivityIndicator(view)
     }
     
-    private static func getUrl(method: Constants.apiMethod) -> String {
+    private func getUrl(method: Constants.apiMethod, pageNumber: Int) -> String {
         var url = Constants.breweryUrl
         url.append(method.string())
         url.append("?key=\(Constants.apiKey)")
+        url.append("&p=\(pageNumber)")
         return url
     }
     
     // MARK: Activity Indicator
     
-    private static func addActivityIndicator(_ view: UIViewController) {
+    private func addActivityIndicator(_ view: UIViewController) {
         
         strLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
@@ -71,7 +84,7 @@ class Requester {
         view.view.addSubview(effectView)
     }
     
-    private static func removeActivityIndicator() {
+    private func removeActivityIndicator() {
         strLabel.removeFromSuperview()
         activityIndicator.removeFromSuperview()
         effectView.removeFromSuperview()

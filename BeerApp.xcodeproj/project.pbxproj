@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		487D30002289EB7500485F0B /* StyleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487D2FFF2289EB7500485F0B /* StyleResponse.swift */; };
+		487D30022289F34D00485F0B /* BeerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487D30012289F34D00485F0B /* BeerViewController.swift */; };
+		487D30062289F51600485F0B /* StyleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487D30042289F51600485F0B /* StyleTableViewCell.swift */; };
+		487D30072289F51600485F0B /* StyleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 487D30052289F51600485F0B /* StyleTableViewCell.xib */; };
+		487D300A2289F5AA00485F0B /* BeerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487D30082289F5AA00485F0B /* BeerTableViewCell.swift */; };
+		487D300B2289F5AA00485F0B /* BeerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 487D30092289F5AA00485F0B /* BeerTableViewCell.xib */; };
 		489EC2EF22811356003C48CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC2EE22811356003C48CE /* AppDelegate.swift */; };
 		489EC2F122811356003C48CE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC2F022811356003C48CE /* MenuViewController.swift */; };
 		489EC2F422811356003C48CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 489EC2F222811356003C48CE /* Main.storyboard */; };
@@ -19,11 +25,17 @@
 		489EC30E22811EEE003C48CE /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC30D22811EEE003C48CE /* UIViewController.swift */; };
 		489EC31122811F57003C48CE /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC31022811F57003C48CE /* Beer.swift */; };
 		489EC31322812007003C48CE /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC31222812007003C48CE /* Style.swift */; };
-		489EC31522812883003C48CE /* RequestReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC31422812883003C48CE /* RequestReturn.swift */; };
+		489EC31522812883003C48CE /* BeerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC31422812883003C48CE /* BeerResponse.swift */; };
 		489EC31722812F9E003C48CE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489EC31622812F9E003C48CE /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		487D2FFF2289EB7500485F0B /* StyleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleResponse.swift; sourceTree = "<group>"; };
+		487D30012289F34D00485F0B /* BeerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeerViewController.swift; sourceTree = "<group>"; };
+		487D30042289F51600485F0B /* StyleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTableViewCell.swift; sourceTree = "<group>"; };
+		487D30052289F51600485F0B /* StyleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StyleTableViewCell.xib; sourceTree = "<group>"; };
+		487D30082289F5AA00485F0B /* BeerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeerTableViewCell.swift; sourceTree = "<group>"; };
+		487D30092289F5AA00485F0B /* BeerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BeerTableViewCell.xib; sourceTree = "<group>"; };
 		489EC2EB22811356003C48CE /* BeerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		489EC2EE22811356003C48CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		489EC2F022811356003C48CE /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -38,7 +50,7 @@
 		489EC30D22811EEE003C48CE /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		489EC31022811F57003C48CE /* Beer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beer.swift; sourceTree = "<group>"; };
 		489EC31222812007003C48CE /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		489EC31422812883003C48CE /* RequestReturn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestReturn.swift; sourceTree = "<group>"; };
+		489EC31422812883003C48CE /* BeerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeerResponse.swift; sourceTree = "<group>"; };
 		489EC31622812F9E003C48CE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +105,7 @@
 				489EC2F022811356003C48CE /* MenuViewController.swift */,
 				489EC30522811A68003C48CE /* SearchViewController.swift */,
 				489EC30722811CA6003C48CE /* FavoriteViewController.swift */,
+				487D30012289F34D00485F0B /* BeerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -100,6 +113,10 @@
 		489EC304228113DB003C48CE /* ViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				487D30042289F51600485F0B /* StyleTableViewCell.swift */,
+				487D30052289F51600485F0B /* StyleTableViewCell.xib */,
+				487D30082289F5AA00485F0B /* BeerTableViewCell.swift */,
+				487D30092289F5AA00485F0B /* BeerTableViewCell.xib */,
 			);
 			path = ViewCell;
 			sourceTree = "<group>";
@@ -126,7 +143,8 @@
 			children = (
 				489EC31022811F57003C48CE /* Beer.swift */,
 				489EC31222812007003C48CE /* Style.swift */,
-				489EC31422812883003C48CE /* RequestReturn.swift */,
+				489EC31422812883003C48CE /* BeerResponse.swift */,
+				487D2FFF2289EB7500485F0B /* StyleResponse.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -190,8 +208,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				489EC2FC22811368003C48CE /* LaunchScreen.storyboard in Resources */,
+				487D300B2289F5AA00485F0B /* BeerTableViewCell.xib in Resources */,
 				489EC2F922811368003C48CE /* Assets.xcassets in Resources */,
 				489EC2F422811356003C48CE /* Main.storyboard in Resources */,
+				487D30072289F51600485F0B /* StyleTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,17 +222,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487D30022289F34D00485F0B /* BeerViewController.swift in Sources */,
 				489EC30E22811EEE003C48CE /* UIViewController.swift in Sources */,
 				489EC31722812F9E003C48CE /* Constants.swift in Sources */,
+				487D30002289EB7500485F0B /* StyleResponse.swift in Sources */,
+				487D300A2289F5AA00485F0B /* BeerTableViewCell.swift in Sources */,
 				489EC2F122811356003C48CE /* MenuViewController.swift in Sources */,
 				489EC2EF22811356003C48CE /* AppDelegate.swift in Sources */,
 				489EC31122811F57003C48CE /* Beer.swift in Sources */,
 				489EC30B22811D87003C48CE /* Requester.swift in Sources */,
 				489EC30622811A68003C48CE /* SearchViewController.swift in Sources */,
 				489EC2F722811356003C48CE /* BeerApp.xcdatamodeld in Sources */,
-				489EC31522812883003C48CE /* RequestReturn.swift in Sources */,
+				489EC31522812883003C48CE /* BeerResponse.swift in Sources */,
 				489EC31322812007003C48CE /* Style.swift in Sources */,
 				489EC30822811CA6003C48CE /* FavoriteViewController.swift in Sources */,
+				487D30062289F51600485F0B /* StyleTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
