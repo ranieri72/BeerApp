@@ -10,6 +10,10 @@ import UIKit
 
 class BeerTableViewCell: UITableViewCell {
 
+    @IBOutlet var lbName: UILabel!
+    @IBOutlet var imgLabel: UIImageView!
+    @IBOutlet var categoryName: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -19,5 +23,7 @@ class BeerTableViewCell: UITableViewCell {
     }
     
     func setupCell(_ beer: Beer) {
+        lbName.text = beer.name
+        categoryName.text = beer.style?.category?.name
     }
 }

@@ -13,6 +13,7 @@ class Constants {
     enum apiMethod {
         case getBeers
         case getStyle
+        case search
         
         func string() -> String {
             switch self {
@@ -20,6 +21,8 @@ class Constants {
                 return "beers/"
             case .getStyle:
                 return "styles/"
+            case .search:
+                return "search/"
             }
         }
     }

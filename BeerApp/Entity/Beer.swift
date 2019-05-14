@@ -8,4 +8,5 @@
 
 struct Beer: Codable {
     var name: String?
+    var style: Style?
 }

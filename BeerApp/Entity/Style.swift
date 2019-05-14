@@ -7,5 +7,9 @@
 //
 
 struct Style: Codable {
+    var id: Int?
     var name: String?
+    var shortName: String?
+    
+    var category: Category?
 }

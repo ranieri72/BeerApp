@@ -39,18 +39,26 @@ class MenuViewController: UIViewController {
     
     func requestStyles() {
         func sucess(response: [Any]) {
-            tableView.reloadData()
+            if let stylesResponse = response as? [Style] {
+                styles = stylesResponse
+                tableView.isHidden = false
+                tableView.reloadData()
+            }
         }
         func fail(msg: String) {
             presentAlertView(msg: msg)
         }
-        Requester.shared.get(method: .getStyle, pageNumber: 1, self, sucess: sucess, fail: fail)
+        Requester.shared.get(parameter: nil, method: .getStyle, pageNumber: 1, view: self, sucess: sucess, fail: fail)
     }
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return styles.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

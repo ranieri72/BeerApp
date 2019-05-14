@@ -31,18 +31,26 @@ class BeerViewController: UIViewController {
     
     func requestBeer() {
         func sucess(response: [Any]) {
-            tableView.reloadData()
+            if let beersResponse = response as? [Beer] {
+                beers = beersResponse
+                tableView.isHidden = false
+                tableView.reloadData()
+            }
         }
         func fail(msg: String) {
             presentAlertView(msg: msg)
         }
-        Requester.shared.get(method: .getBeers, pageNumber: 1, self, sucess: sucess, fail: fail)
+        Requester.shared.get(parameter: selectedStyle, method: .getBeers, pageNumber: 1, view: self, sucess: sucess, fail: fail)
     }
 }
 
 extension BeerViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return beers.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 155
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

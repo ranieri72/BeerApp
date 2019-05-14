@@ -10,17 +10,23 @@ import UIKit
 
 class Requester {
     static let shared = Requester()
+    static var isRequesting = false
     
     private var activityIndicator = UIActivityIndicatorView()
     private var strLabel = UILabel()
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
-    func get(method: Constants.apiMethod, pageNumber: Int, _ view: UIViewController, sucess: @escaping (_ response: [Any]) -> Void, fail: @escaping (_ msg: String) -> Void) {
-        let url = getUrl(method: method, pageNumber: pageNumber)
+    func get(parameter: Any?,
+             method: Constants.apiMethod,
+             pageNumber: Int,
+             view: UIViewController,
+             sucess: @escaping (_ response: [Any]) -> Void,
+             fail: @escaping (_ msg: String) -> Void) {
+        let url = getUrl(parameter, method: method, pageNumber: pageNumber)
         let request = URLRequest(url: URL(string: url)!)
         let session = URLSession.shared
+        
         let task = session.dataTask(with: request) { data, response, error in
-            
             DispatchQueue.main.async {
                 if error == nil {
                     
@@ -32,6 +38,7 @@ class Requester {
                         } else {
                             fail("Nenhuma cerveja encontrada!")
                         }
+                        break
                     case .getStyle:
                         let dataResponse = try! JSONDecoder().decode(StyleResponse.self, from: data!)
                         if let styles = dataResponse.data {
@@ -39,23 +46,49 @@ class Requester {
                         } else {
                             fail("Nenhuma estilo encontrado!")
                         }
+                        break
+                    case .search:
+                        let dataResponse = try! JSONDecoder().decode(BeerResponse.self, from: data!)
+                        if let beers = dataResponse.data {
+                            sucess(beers)
+                        } else {
+                            fail("Nenhuma cerveja encontrada!")
+                        }
+                        break
                     }
                 } else {
-                    fail(error?.localizedDescription ?? "Erro ao recuperar os estudantes!")
+                    fail(error?.localizedDescription ?? "Erro ao recuperar os dados!")
                 }
                 self.removeActivityIndicator()
+                Requester.isRequesting = false
             }
         }
         task.resume()
         addActivityIndicator(view)
+        Requester.isRequesting = true
     }
     
-    private func getUrl(method: Constants.apiMethod, pageNumber: Int) -> String {
+    private func getUrl(_ parameter: Any?, method: Constants.apiMethod, pageNumber: Int) -> String {
         var url = Constants.breweryUrl
         url.append(method.string())
         url.append("?key=\(Constants.apiKey)")
         url.append("&p=\(pageNumber)")
-        return url
+        switch method {
+        case .getBeers:
+            if let style = parameter as? Style {
+                url.append("&styleId=\(style.id ?? 0)")
+            }
+            break
+        case .search:
+            if let beer = parameter as? String {
+                url.append("&q=\(beer)")
+                url.append("&type=beer")
+            }
+            break
+        default: break
+        }
+        let urlString = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        return urlString!
     }
     
     // MARK: Activity Indicator
