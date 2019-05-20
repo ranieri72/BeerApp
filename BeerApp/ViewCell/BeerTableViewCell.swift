@@ -25,5 +25,10 @@ class BeerTableViewCell: UITableViewCell {
     func setupCell(_ beer: Beer) {
         lbName.text = beer.name
         categoryName.text = beer.style?.category?.name
+        if beer.image == nil {
+            imgLabel.image = UIImage(named: "beer_bottle")
+        } else {
+            imgLabel.image = beer.image
+        }
     }
 }

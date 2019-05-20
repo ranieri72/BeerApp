@@ -68,6 +68,24 @@ class Requester {
         Requester.isRequesting = true
     }
     
+    func downloadImage(beer: Beer,
+                        sucess: @escaping (_ image: UIImage) -> Void,
+                        fail: @escaping (_ msg: String) -> Void) {
+        if let url = URL(string: beer.labels?.medium ?? "") {
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    sucess(image)
+                } else {
+                    fail("Imagem inválida!")
+                }
+            } else {
+                fail("Falha no download!")
+            }
+        } else {
+            fail("URL inválida!")
+        }
+    }
+    
     private func getUrl(_ parameter: Any?, method: Constants.apiMethod, pageNumber: Int) -> String {
         var url = Constants.breweryUrl
         url.append(method.string())
