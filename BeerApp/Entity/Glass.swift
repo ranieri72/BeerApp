@@ -6,7 +6,14 @@
 //  Copyright © 2019 Ranieri. All rights reserved.
 //
 
-class Glass: Codable {
-    var id: Int?
-    var name: String?
+import CoreData
+
+extension Glass {
+    
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
+        
+        self.id = json["id"] as? Int32 ?? 0
+        self.name = json["name"] as? String ?? ""
+    }
 }

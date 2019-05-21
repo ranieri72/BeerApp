@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 class FavoriteViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
+    var persistentContainer: NSPersistentContainer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        persistentContainer = appDelegate.persistentContainer
     }
 }

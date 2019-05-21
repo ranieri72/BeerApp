@@ -28,7 +28,7 @@ class BeerTableViewCell: UITableViewCell {
         if beer.image == nil {
             imgLabel.image = UIImage(named: "beer_bottle")
         } else {
-            imgLabel.image = beer.image
+            imgLabel.image = beer.image as? UIImage
         }
     }
 }

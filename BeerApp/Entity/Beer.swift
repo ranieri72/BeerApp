@@ -6,29 +6,23 @@
 //  Copyright © 2019 Ranieri. All rights reserved.
 //
 
-import UIKit
+import CoreData
 
-struct Beer: Codable {
-    var name: String?
-    var description: String?
-    var abv: String?
-    var ibu: String?
-    var year: Int?
+extension Beer {
     
-    var labels: Label?
-    var style: Style?
-    var glass: Glass?
-    
-    var image: UIImage?
-    
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case description
-        case abv
-        case ibu
-        case year
-        case labels
-        case style
-        case glass
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
+        
+        self.name = json["name"] as? String ?? ""
+        self.desc = json["description"] as? String ?? ""
+        self.abv = json["abv"] as? String ?? ""
+        self.ibu = json["ibu"] as? String ?? ""
+        self.year = json["year"] as? Int32 ?? 0
+        
+        self.label = json["labels"] as? Label ?? Label()
+        self.style = json["style"] as? Style ?? Style()
+        self.glass = json["glass"] as? Glass ?? Glass()
+        
+        self.image = nil
     }
 }

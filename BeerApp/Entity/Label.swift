@@ -6,6 +6,13 @@
 //  Copyright © 2019 Ranieri. All rights reserved.
 //
 
-class Label: Codable {
-    var medium: String
+import CoreData
+
+extension Label {
+    
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
+        
+        self.medium = json["medium"] as? String ?? ""
+    }
 }

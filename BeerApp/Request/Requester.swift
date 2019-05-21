@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class Requester {
     static let shared = Requester()
@@ -15,6 +16,12 @@ class Requester {
     private var activityIndicator = UIActivityIndicatorView()
     private var strLabel = UILabel()
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    private var viewContext: NSManagedObjectContext!
+    
+    init() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        viewContext = appDelegate.persistentContainer.viewContext
+    }
     
     func get(parameter: Any?,
              method: Constants.apiMethod,
@@ -22,6 +29,7 @@ class Requester {
              view: UIViewController,
              sucess: @escaping (_ response: [Any]) -> Void,
              fail: @escaping (_ msg: String) -> Void) {
+        
         let url = getUrl(parameter, method: method, pageNumber: pageNumber)
         let request = URLRequest(url: URL(string: url)!)
         let session = URLSession.shared
@@ -32,29 +40,23 @@ class Requester {
                     
                     switch method {
                     case .getBeers:
-                        let dataResponse = try! JSONDecoder().decode(BeerResponse.self, from: data!)
-                        if let beers = dataResponse.data {
-                            sucess(beers)
+                        if let responseData = self.parseBeer(data) {
+                            sucess(responseData)
                         } else {
-                            fail("Nenhuma cerveja encontrada!")
+                            fail("Erro ao recuperar os dados!")
                         }
-                        break
                     case .getStyle:
-                        let dataResponse = try! JSONDecoder().decode(StyleResponse.self, from: data!)
-                        if let styles = dataResponse.data {
-                            sucess(styles)
+                        if let responseData = self.parseStyle(data) {
+                            sucess(responseData)
                         } else {
-                            fail("Nenhuma estilo encontrado!")
+                            fail("Erro ao recuperar os dados!")
                         }
-                        break
                     case .search:
-                        let dataResponse = try! JSONDecoder().decode(BeerResponse.self, from: data!)
-                        if let beers = dataResponse.data {
-                            sucess(beers)
+                        if let responseData = self.parseBeer(data) {
+                            sucess(responseData)
                         } else {
-                            fail("Nenhuma cerveja encontrada!")
+                            fail("Erro ao recuperar os dados!")
                         }
-                        break
                     }
                 } else {
                     fail(error?.localizedDescription ?? "Erro ao recuperar os dados!")
@@ -69,9 +71,9 @@ class Requester {
     }
     
     func downloadImage(beer: Beer,
-                        sucess: @escaping (_ image: UIImage) -> Void,
-                        fail: @escaping (_ msg: String) -> Void) {
-        if let url = URL(string: beer.labels?.medium ?? "") {
+                       sucess: @escaping (_ image: UIImage) -> Void,
+                       fail: @escaping (_ msg: String) -> Void) {
+        if let url = URL(string: beer.label?.medium ?? "") {
             if let data = try? Data(contentsOf: url) {
                 if let image = UIImage(data: data) {
                     sucess(image)
@@ -86,6 +88,34 @@ class Requester {
         }
     }
     
+    private func parseBeer(_ data: Data?) -> [Any]? {
+        let dataJson =  try! JSONSerialization.jsonObject(with: data!, options: []) as? [String:AnyObject]
+        if let beersJson = dataJson?["data"] as? [[String:AnyObject]] {
+            var beers = [Beer]()
+            for json in beersJson {
+                let beer = Beer(json: json, context: self.viewContext)
+                beers.append(beer)
+            }
+            return beers
+        } else {
+            return nil
+        }
+    }
+    
+    private func parseStyle(_ data: Data?) -> [Any]? {
+        let dataJson =  try! JSONSerialization.jsonObject(with: data!, options: []) as? [String:AnyObject]
+        if let stylesJson = dataJson?["data"] as? [[String:AnyObject]] {
+            var styles = [Style]()
+            for json in stylesJson {
+                let style = Style(json: json, context: self.viewContext)
+                styles.append(style)
+            }
+            return styles
+        } else {
+            return nil
+        }
+    }
+    
     private func getUrl(_ parameter: Any?, method: Constants.apiMethod, pageNumber: Int) -> String {
         var url = Constants.breweryUrl
         url.append(method.string())
@@ -94,7 +124,7 @@ class Requester {
         switch method {
         case .getBeers:
             if let style = parameter as? Style {
-                url.append("&styleId=\(style.id ?? 0)")
+                url.append("&styleId=\(style.id)")
             }
             break
         case .search:

@@ -6,10 +6,17 @@
 //  Copyright © 2019 Ranieri. All rights reserved.
 //
 
-struct Style: Codable {
-    var id: Int?
-    var name: String?
-    var shortName: String?
+import CoreData
+
+extension Style {
     
-    var category: Category?
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
+        
+        self.id = json["id"] as? Int32 ?? 0
+        self.name = json["name"] as? String ?? ""
+        self.shortName = json["shortName"] as? String ?? ""
+        
+        self.category = json["category"] as? Category ?? Category()
+    }
 }
