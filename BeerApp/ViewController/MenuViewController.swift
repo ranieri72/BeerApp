@@ -15,6 +15,7 @@ class MenuViewController: UIViewController {
     let viewControllerID = "beerVC"
     let styleCellIdentifier = "StyleTableViewCell"
     var styles = [Style]()
+    var lastPage = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,18 +38,34 @@ class MenuViewController: UIViewController {
         }
     }
     
+    func updateTable(data: [Style]) {
+        var rows = [IndexPath]()
+        let startIndex = styles.count
+        let lastIndex = startIndex + (data.count - 1)
+        for index in startIndex ... lastIndex {
+            let indexPath = IndexPath(row: index, section: 0)
+            rows.append(indexPath)
+        }
+        styles.append(contentsOf: data)
+        tableView.beginUpdates()
+        tableView.insertRows(at: rows, with: .left)
+        tableView.endUpdates()
+    }
+    
     func requestStyles() {
         func sucess(response: [Any]) {
             if let stylesResponse = response as? [Style] {
-                styles = stylesResponse
                 tableView.isHidden = false
-                tableView.reloadData()
+                updateTable(data: stylesResponse)
+                lastPage += 1
             }
         }
         func fail(msg: String) {
             presentAlertView(msg: msg)
         }
-        Requester.shared.get(parameter: nil, method: .getStyle, pageNumber: 1, view: self, sucess: sucess, fail: fail)
+        if !Requester.isRequesting {
+            Requester.shared.get(parameter: nil, method: .getStyle, pageNumber: lastPage, view: self, sucess: sucess, fail: fail)
+        }
     }
 }
 
@@ -66,6 +83,13 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: styleCellIdentifier, for: indexPath) as! StyleTableViewCell
         cell.setupCell(style)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row > styles.count - 10 {
+            requestStyles()
+            print("prefetched - page: \(lastPage)")
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
