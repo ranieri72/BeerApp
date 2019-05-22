@@ -19,3 +19,6 @@ Ao clicar em uma cerveja, o app é direcionado pra a tela de detalhes.
 Nessa tela é listada todas as cervejas favoritadas;
 Ao clicar em uma cerveja, é mostrada a tela com as informações da cerveja;
 Por ser dados persistidos, essa tela funciona mesmo sem internet.
+
+Os dados vem da API BreweryDB:
+https://brewerydb.com/
