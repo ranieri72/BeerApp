@@ -13,16 +13,22 @@ extension Beer {
     convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
         self.init(context: context)
         
-        self.name = json["name"] as? String ?? ""
-        self.desc = json["description"] as? String ?? ""
-        self.abv = json["abv"] as? String ?? ""
-        self.ibu = json["ibu"] as? String ?? ""
-        self.year = json["year"] as? Int32 ?? 0
+        id = json["id"] as? String ?? ""
+        name = json["name"] as? String ?? ""
+        desc = json["description"] as? String ?? ""
+        abv = json["abv"] as? String ?? ""
+        ibu = json["ibu"] as? String ?? ""
+        year = json["year"] as? Int32 ?? 0
         
-        self.label = json["labels"] as? Label ?? Label()
-        self.style = json["style"] as? Style ?? Style()
-        self.glass = json["glass"] as? Glass ?? Glass()
-        
-        self.image = nil
+        if let jsonData = json["labels"] as? [String : AnyObject] {
+            label = Label(json: jsonData, context: context)
+        }
+        if let jsonData = json["style"] as? [String : AnyObject] {
+            style = Style(json: jsonData, context: context)
+        }
+        if let jsonData = json["glass"] as? [String : AnyObject] {
+            glass = Glass(json: jsonData, context: context)
+        }
+        image = nil
     }
 }

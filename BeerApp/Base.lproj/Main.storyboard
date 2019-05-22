@@ -39,7 +39,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="InV-sb-Jo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729" y="-600"/>
+            <point key="canvasLocation" x="958" y="-591"/>
         </scene>
         <!--Beer Detail View Controller-->
         <scene sceneID="ta3-U6-taV">
@@ -211,7 +211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4My-CZ-sdD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1560.8" y="-600.44977511244383"/>
+            <point key="canvasLocation" x="2494" y="-591"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="k46-hb-aG0">
@@ -259,11 +259,12 @@
                         <outlet property="lbMessage" destination="0LS-lx-b34" id="OLs-Gx-u3b"/>
                         <outlet property="searchBar" destination="KWU-kJ-Iqm" id="qzO-Fy-Ioo"/>
                         <outlet property="tableView" destination="BW1-9Q-tAU" id="uU6-Ul-3LI"/>
+                        <segue destination="nw3-U4-xOa" kind="show" identifier="beerFromSearch" id="Vw1-Av-k21"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XYI-Cj-xvs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="728.79999999999995" y="115.59220389805098"/>
+            <point key="canvasLocation" x="958" y="116"/>
         </scene>
         <!--Favorite View Controller-->
         <scene sceneID="S9b-l3-8v9">
@@ -277,12 +278,24 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="As suas cervejas favoritadas aparecem aqui." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AiV-Az-s8z">
+                                <rect key="frame" x="15" y="316" width="345" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Bj2-oH-H8S"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.99915927650000003" green="0.80783241989999999" blue="0.25378721949999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="8tW-vt-kOO" firstAttribute="bottom" secondItem="7iI-Jy-EQf" secondAttribute="bottom" id="25i-gA-LKJ"/>
+                            <constraint firstItem="8tW-vt-kOO" firstAttribute="trailing" secondItem="AiV-Az-s8z" secondAttribute="trailing" constant="15" id="3Zu-uZ-Bjd"/>
                             <constraint firstItem="8tW-vt-kOO" firstAttribute="trailing" secondItem="7iI-Jy-EQf" secondAttribute="trailing" id="DG2-Mz-miF"/>
+                            <constraint firstItem="AiV-Az-s8z" firstAttribute="leading" secondItem="8tW-vt-kOO" secondAttribute="leading" constant="15" id="FaO-cD-Obv"/>
                             <constraint firstItem="7iI-Jy-EQf" firstAttribute="top" secondItem="8tW-vt-kOO" secondAttribute="top" id="Krg-k6-9FQ"/>
+                            <constraint firstItem="AiV-Az-s8z" firstAttribute="centerY" secondItem="8tW-vt-kOO" secondAttribute="centerY" id="Wau-Qe-Xl7"/>
                             <constraint firstItem="7iI-Jy-EQf" firstAttribute="leading" secondItem="8tW-vt-kOO" secondAttribute="leading" id="e1d-P1-nOY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tW-vt-kOO"/>
@@ -290,12 +303,14 @@
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="BiA-l8-0XE"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="lbMessage" destination="AiV-Az-s8z" id="Gbe-n8-DSs"/>
                         <outlet property="tableView" destination="7iI-Jy-EQf" id="ouL-DY-d73"/>
+                        <segue destination="nw3-U4-xOa" kind="show" identifier="beerFromFavorite" id="aac-oY-uHf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIr-CT-Ttb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1449" y="271"/>
+            <point key="canvasLocation" x="1714" y="116"/>
         </scene>
         <!--Menu-->
         <scene sceneID="OML-Bn-rPT">
@@ -370,4 +385,7 @@
         <image name="beer_bottle" width="192" height="192"/>
         <image name="unselected_star" width="204.80000305175781" height="204.80000305175781"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="aac-oY-uHf"/>
+    </inferredMetricsTieBreakers>
 </document>

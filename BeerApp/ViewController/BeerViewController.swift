@@ -49,7 +49,7 @@ class BeerViewController: UIViewController {
             }
         }
         func fail(msg: String) {
-            presentAlertView(msg: msg)
+            presentAlertView(msg: msg, backScreen: true)
         }
         Requester.shared.get(parameter: selectedStyle, method: .getBeers, pageNumber: 1, view: self, sucess: sucess, fail: fail)
     }

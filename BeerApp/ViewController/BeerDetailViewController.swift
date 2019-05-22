@@ -26,15 +26,13 @@ class BeerDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initViews()
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        persistentContainer = appDelegate.persistentContainer
+        persistentContainer = DataController.shared.persistentContainer
     }
     
     func initViews() {
         title = selectedBeer.name
         
-        lbDesc.text = selectedBeer.description
+        lbDesc.text = selectedBeer.desc
         lbIBU.text = selectedBeer.ibu
         lbABV.text = selectedBeer.abv
         lbYear.text = String(selectedBeer.year)
@@ -47,13 +45,13 @@ class BeerDetailViewController: UIViewController {
     }
     
     @IBAction func favoring(_ sender: UIButton) {
-        // FIXME:
-//        let beer = Beer(context: persistentContainer.viewContext)
-//        do {
+        do {
+            try selectedBeer.managedObjectContext?.save()
+//            persistentContainer.viewContext.insert(selectedBeer)
 //            try persistentContainer.viewContext.save()
-//        imgLabel.image = UIImage(named: "selected_star")
-//        } catch {
-//            presentAlertView(msg: "Cerveja não salva!")
-//        }
+            btnStar.setImage(UIImage(named: "selected_star"), for: .normal)
+        } catch {
+            presentAlertView(msg: "Erro ao salvar cerveja!")
+        }
     }
 }

@@ -14,7 +14,9 @@ class SearchViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var lbMessage: UILabel!
     
+    let viewControllerID = "beerFromSearch"
     let beerCellIdentifier = "BeerTableViewCell"
+    
     var beers = [Beer]()
     var beerSearched: String = ""
     var timer = Timer()
@@ -32,6 +34,14 @@ class SearchViewController: UIViewController {
         tableView.register(nibSearch, forCellReuseIdentifier: beerCellIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == viewControllerID {
+            let view = segue.destination as! BeerDetailViewController
+            let beer = sender as! Beer
+            view.selectedBeer = beer
+        }
     }
     
     func restartTimer(){
@@ -89,5 +99,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: beerCellIdentifier, for: indexPath) as! BeerTableViewCell
         cell.setupCell(beer)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let beer = beers[indexPath.row]
+        performSegue(withIdentifier: viewControllerID, sender: beer)
     }
 }

@@ -13,10 +13,10 @@ extension Style {
     convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
         self.init(context: context)
         
-        self.id = json["id"] as? Int32 ?? 0
-        self.name = json["name"] as? String ?? ""
-        self.shortName = json["shortName"] as? String ?? ""
+        id = json["id"] as? Int32 ?? 0
+        name = json["name"] as? String ?? ""
+        shortName = json["shortName"] as? String ?? ""
         
-        self.category = json["category"] as? Category ?? Category()
+        category = Category(json: json["category"] as! [String : AnyObject], context: context)
     }
 }

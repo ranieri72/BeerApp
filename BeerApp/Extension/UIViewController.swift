@@ -10,11 +10,14 @@ import UIKit
 
 extension UIViewController {
     
-    func presentAlertView(msg: String) {
+    func presentAlertView(msg: String, backScreen: Bool = false) {
         let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
             UIAlertAction in
             alert.dismiss(animated: true, completion: nil)
+            if backScreen {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)

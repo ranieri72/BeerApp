@@ -19,8 +19,7 @@ class Requester {
     private var viewContext: NSManagedObjectContext!
     
     init() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        viewContext = appDelegate.persistentContainer.viewContext
+        viewContext = DataController.shared.viewContext
     }
     
     func get(parameter: Any?,
@@ -43,7 +42,7 @@ class Requester {
                         if let responseData = self.parseBeer(data) {
                             sucess(responseData)
                         } else {
-                            fail("Erro ao recuperar os dados!")
+                            fail("Erro ao buscar as cervejas!")
                         }
                     case .getStyle:
                         if let responseData = self.parseStyle(data) {
@@ -55,7 +54,7 @@ class Requester {
                         if let responseData = self.parseBeer(data) {
                             sucess(responseData)
                         } else {
-                            fail("Erro ao recuperar os dados!")
+                            fail("Erro ao buscar as cervejas!")
                         }
                     }
                 } else {
