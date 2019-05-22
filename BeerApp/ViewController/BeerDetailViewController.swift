@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class BeerDetailViewController: UIViewController {
-
+    
     @IBOutlet var imgLabel: UIImageView!
     
     @IBOutlet var lbDesc: UILabel!
@@ -46,9 +46,9 @@ class BeerDetailViewController: UIViewController {
     
     @IBAction func favoring(_ sender: UIButton) {
         do {
-            try selectedBeer.managedObjectContext?.save()
-//            persistentContainer.viewContext.insert(selectedBeer)
-//            try persistentContainer.viewContext.save()
+            let managedBeer = Beer(beer: selectedBeer, context: persistentContainer.viewContext)
+            persistentContainer.viewContext.insert(managedBeer)
+            try persistentContainer.viewContext.save()
             btnStar.setImage(UIImage(named: "selected_star"), for: .normal)
         } catch {
             presentAlertView(msg: "Erro ao salvar cerveja!")

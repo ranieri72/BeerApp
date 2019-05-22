@@ -10,10 +10,9 @@ import CoreData
 
 extension Category {
     
-    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
-        self.init(context: context)
-        
-        self.id = json["id"] as? Int32 ?? 0
-        self.name = json["name"] as? String ?? ""
+    convenience init(json: [String:AnyObject]) {
+        self.init()
+        id = json["id"] as? Int32 ?? 0
+        name = json["name"] as? String ?? ""
     }
 }

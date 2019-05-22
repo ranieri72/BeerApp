@@ -10,9 +10,8 @@ import CoreData
 
 extension Label {
     
-    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
-        self.init(context: context)
-        
-        self.medium = json["medium"] as? String ?? ""
+    convenience init(json: [String:AnyObject]) {
+        self.init()
+        medium = json["medium"] as? String ?? ""
     }
 }

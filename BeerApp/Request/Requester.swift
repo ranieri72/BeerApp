@@ -16,11 +16,6 @@ class Requester {
     private var activityIndicator = UIActivityIndicatorView()
     private var strLabel = UILabel()
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-    private var viewContext: NSManagedObjectContext!
-    
-    init() {
-        viewContext = DataController.shared.viewContext
-    }
     
     func get(parameter: Any?,
              method: Constants.apiMethod,
@@ -92,7 +87,7 @@ class Requester {
         if let beersJson = dataJson?["data"] as? [[String:AnyObject]] {
             var beers = [Beer]()
             for json in beersJson {
-                let beer = Beer(json: json, context: self.viewContext)
+                let beer = Beer(json: json)
                 beers.append(beer)
             }
             return beers
@@ -106,7 +101,7 @@ class Requester {
         if let stylesJson = dataJson?["data"] as? [[String:AnyObject]] {
             var styles = [Style]()
             for json in stylesJson {
-                let style = Style(json: json, context: self.viewContext)
+                let style = Style(json: json)
                 styles.append(style)
             }
             return styles
