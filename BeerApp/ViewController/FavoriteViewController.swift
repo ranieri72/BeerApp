@@ -29,9 +29,9 @@ class FavoriteViewController: UIViewController {
             managedObjectContext: DataController.shared.viewContext,
             sectionNameKeyPath: nil,
             cacheName: "beers")
-        fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
+            tableView.reloadData()
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
@@ -65,6 +65,20 @@ class FavoriteViewController: UIViewController {
             view.selectedBeer = beer
         }
     }
+    
+    func downloadImage(at indexPath: IndexPath) {
+        let beer = fetchedResultsController.object(at: indexPath)
+        func sucess(image: UIImage) {
+            fetchedResultsController.object(at: indexPath).image = image
+            tableView.beginUpdates()
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+        }
+        func fail(msg: String) {
+            print(msg)
+        }
+        Requester.shared.downloadImage(beer: beer, sucess: sucess, fail: fail)
+    }
 }
 
 extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
@@ -82,6 +96,9 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let beer = fetchedResultsController.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: beerCellIdentifier, for: indexPath) as! BeerTableViewCell
+        if beer.image == nil {
+            downloadImage(at: indexPath)
+        }
         cell.setupCell(beer)
         return cell
     }
@@ -90,8 +107,4 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         let beer = fetchedResultsController.object(at: indexPath)
         performSegue(withIdentifier: viewControllerID, sender: beer)
     }
-}
-
-extension FavoriteViewController: NSFetchedResultsControllerDelegate {
-    
 }

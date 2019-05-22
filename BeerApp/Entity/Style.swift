@@ -10,24 +10,27 @@ import CoreData
 
 extension Style {
     
-    convenience init(json: [String:AnyObject]) {
-        self.init()
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
         
         id = json["id"] as? Int32 ?? 0
         name = json["name"] as? String ?? ""
         shortName = json["shortName"] as? String ?? ""
         
-        category = Category(json: json["category"] as! [String : AnyObject])
+        if let jsonData = json["category"] as? [String : AnyObject] {
+            category = Category(json: jsonData, context: context)
+        }
     }
     
-    convenience init(style: Style, context: NSManagedObjectContext) {
+    convenience init(_ style: Style, context: NSManagedObjectContext) {
         self.init(context: context)
+        
         id = style.id
         name = style.name
         shortName = style.shortName
         
         if let category = style.category {
-            self.category = category
+            self.category = Category(category, context: context)
         }
     }
 }

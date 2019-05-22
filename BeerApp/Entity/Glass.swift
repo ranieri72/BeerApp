@@ -10,9 +10,15 @@ import CoreData
 
 extension Glass {
     
-    convenience init(json: [String:AnyObject]) {
-        self.init()
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
         id = json["id"] as? Int32 ?? 0
         name = json["name"] as? String ?? ""
+    }
+    
+    convenience init(_ glass: Glass, context: NSManagedObjectContext) {
+        self.init(context: context)
+        id = glass.id
+        name = glass.name
     }
 }

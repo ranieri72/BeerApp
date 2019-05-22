@@ -10,8 +10,8 @@ import CoreData
 
 extension Beer {
     
-    convenience init(json: [String:AnyObject]) {
-        self.init()
+    convenience init(json: [String:AnyObject], context: NSManagedObjectContext) {
+        self.init(context: context)
         id = json["id"] as? String ?? ""
         name = json["name"] as? String ?? ""
         desc = json["description"] as? String ?? ""
@@ -20,18 +20,18 @@ extension Beer {
         year = json["year"] as? Int32 ?? 0
         
         if let jsonData = json["labels"] as? [String : AnyObject] {
-            label = Label(json: jsonData)
+            label = Label(json: jsonData, context: context)
         }
         if let jsonData = json["style"] as? [String : AnyObject] {
-            style = Style(json: jsonData)
+            style = Style(json: jsonData, context: context)
         }
         if let jsonData = json["glass"] as? [String : AnyObject] {
-            glass = Glass(json: jsonData)
+            glass = Glass(json: jsonData, context: context)
         }
         image = nil
     }
     
-    convenience init(beer: Beer, context: NSManagedObjectContext) {
+    convenience init(_ beer: Beer, context: NSManagedObjectContext) {
         self.init(context: context)
         id = beer.id
         name = beer.name
@@ -41,13 +41,13 @@ extension Beer {
         year = beer.year
         
         if let label = beer.label {
-            self.label = label
+            self.label = Label(label, context: context)
         }
         if let style = beer.style {
-            self.style = style
+            self.style = Style(style, context: context)
         }
         if let glass = beer.glass {
-            self.glass = glass
+            self.glass = Glass(glass, context: context)
         }
         image = nil
     }

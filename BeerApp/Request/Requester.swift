@@ -16,6 +16,11 @@ class Requester {
     private var activityIndicator = UIActivityIndicatorView()
     private var strLabel = UILabel()
     private let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    private var childContext: NSManagedObjectContext!
+    
+    init() {
+        childContext = DataController.shared.childContext
+    }
     
     func get(parameter: Any?,
              method: Constants.apiMethod,
@@ -67,18 +72,20 @@ class Requester {
     func downloadImage(beer: Beer,
                        sucess: @escaping (_ image: UIImage) -> Void,
                        fail: @escaping (_ msg: String) -> Void) {
-        if let url = URL(string: beer.label?.medium ?? "") {
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    sucess(image)
+        DispatchQueue.main.async {
+            if let url = URL(string: beer.label?.medium ?? "") {
+                if let data = try? Data(contentsOf: url) {
+                    if let image = UIImage(data: data) {
+                        sucess(image)
+                    } else {
+                        fail("Imagem inválida!")
+                    }
                 } else {
-                    fail("Imagem inválida!")
+                    fail("Falha no download!")
                 }
             } else {
-                fail("Falha no download!")
+                fail("URL inválida!")
             }
-        } else {
-            fail("URL inválida!")
         }
     }
     
@@ -87,7 +94,7 @@ class Requester {
         if let beersJson = dataJson?["data"] as? [[String:AnyObject]] {
             var beers = [Beer]()
             for json in beersJson {
-                let beer = Beer(json: json)
+                let beer = Beer(json: json, context: childContext)
                 beers.append(beer)
             }
             return beers
@@ -101,7 +108,7 @@ class Requester {
         if let stylesJson = dataJson?["data"] as? [[String:AnyObject]] {
             var styles = [Style]()
             for json in stylesJson {
-                let style = Style(json: json)
+                let style = Style(json: json, context: childContext)
                 styles.append(style)
             }
             return styles
