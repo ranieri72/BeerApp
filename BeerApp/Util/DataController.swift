@@ -12,7 +12,6 @@ class DataController {
     static let shared = DataController()
     
     lazy var persistentContainer: NSPersistentContainer = {
-        print("persistentContainer foi criado")
         let container = NSPersistentContainer(name: "BeerApp")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -24,12 +23,10 @@ class DataController {
     }()
     
     var viewContext: NSManagedObjectContext {
-        print("viewContext foi chamado")
         return persistentContainer.viewContext
     }
     
     lazy var childContext: NSManagedObjectContext = {
-        print("childContext foi criado")
         let childContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         childContext.parent = viewContext
         return childContext

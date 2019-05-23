@@ -67,7 +67,7 @@ class SearchViewController: UIViewController {
             lbMessage.isHidden = false
         }
         if !Requester.isRequesting {
-            Requester.shared.get(parameter: beerSearched, method: .search, pageNumber: 1, view: self, sucess: sucess, fail: fail)
+            Requester.shared.get(parameter: beerSearched, method: .search, pageNumber: 1, showLoading: true, view: self, sucess: sucess, fail: fail)
         }
     }
 }

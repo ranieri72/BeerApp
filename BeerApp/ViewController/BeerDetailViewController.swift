@@ -40,13 +40,7 @@ class BeerDetailViewController: UIViewController {
             managedObjectContext: DataController.shared.viewContext,
             sectionNameKeyPath: nil,
             cacheName: "beers")
-        do {
-            try fetchedResultsController.performFetch()
-            fetchBeer()
-            changeButton()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
+        fetchBeer()
     }
     
     override func viewDidLoad() {
@@ -58,6 +52,10 @@ class BeerDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setupFetchedResultsController()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        fetchedResultsController = nil
     }
     
     func initViews() {
@@ -76,12 +74,19 @@ class BeerDetailViewController: UIViewController {
     }
     
     func fetchBeer() {
-        if let fetchedBeer = fetchedResultsController.fetchedObjects {
-            if fetchedBeer.count > 0 {
-                isFavorite = true
-                self.fetchedBeer = fetchedBeer[0]
+        isFavorite = false
+        do {
+            try fetchedResultsController.performFetch()
+            if let fetchedBeer = fetchedResultsController.fetchedObjects {
+                if fetchedBeer.count > 0 {
+                    isFavorite = true
+                    self.fetchedBeer = fetchedBeer[0]
+                }
             }
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
+        changeButton()
     }
     
     func changeButton() {
@@ -101,8 +106,7 @@ class BeerDetailViewController: UIViewController {
                 viewContext.insert(managedBeer)
             }
             try viewContext.save()
-            isFavorite = !isFavorite
-            changeButton()
+            fetchBeer()
         } catch {
             presentAlertView(msg: "Erro ao salvar cerveja!")
         }

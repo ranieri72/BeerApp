@@ -14,13 +14,14 @@ class MenuViewController: UIViewController {
     
     let viewControllerID = "beerVC"
     let styleCellIdentifier = "StyleTableViewCell"
+    let refreshControl = UIRefreshControl()
     var styles = [Style]()
     var lastPage = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initViews()
-        requestStyles()
+        requestStyles(showLoading: true)
     }
     
     func initViews() {
@@ -28,6 +29,17 @@ class MenuViewController: UIViewController {
         tableView.register(nibSearch, forCellReuseIdentifier: styleCellIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Puxe para buscar...")
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refresh(sender:AnyObject) {
+        styles = [Style]()
+        lastPage = 1
+        tableView.reloadData()
+        requestStyles(showLoading: false)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,8 +64,9 @@ class MenuViewController: UIViewController {
         tableView.endUpdates()
     }
     
-    func requestStyles() {
+    func requestStyles(showLoading: Bool) {
         func sucess(response: [Any]) {
+            refreshControl.endRefreshing()
             if let stylesResponse = response as? [Style] {
                 tableView.isHidden = false
                 updateTable(data: stylesResponse)
@@ -61,10 +74,13 @@ class MenuViewController: UIViewController {
             }
         }
         func fail(msg: String) {
+            refreshControl.endRefreshing()
             presentAlertView(msg: msg)
         }
         if !Requester.isRequesting {
-            Requester.shared.get(parameter: nil, method: .getStyle, pageNumber: lastPage, view: self, sucess: sucess, fail: fail)
+            Requester.shared.get(parameter: nil, method: .getStyle, pageNumber: lastPage, showLoading: showLoading, view: self, sucess: sucess, fail: fail)
+        } else {
+            refreshControl.endRefreshing()
         }
     }
 }
@@ -87,8 +103,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row > styles.count - 10 {
-            requestStyles()
-            print("prefetched - page: \(lastPage)")
+            requestStyles(showLoading: true)
         }
     }
     

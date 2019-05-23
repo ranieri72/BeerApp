@@ -25,6 +25,7 @@ class Requester {
     func get(parameter: Any?,
              method: Constants.apiMethod,
              pageNumber: Int,
+             showLoading: Bool,
              view: UIViewController,
              sucess: @escaping (_ response: [Any]) -> Void,
              fail: @escaping (_ msg: String) -> Void) {
@@ -60,13 +61,17 @@ class Requester {
                 } else {
                     fail(error?.localizedDescription ?? "Erro ao recuperar os dados!")
                 }
-                self.removeActivityIndicator()
                 Requester.isRequesting = false
+                if showLoading {
+                    self.removeActivityIndicator()
+                }
             }
         }
         task.resume()
-        addActivityIndicator(view)
         Requester.isRequesting = true
+        if showLoading {
+            addActivityIndicator(view)
+        }
     }
     
     func downloadImage(beer: Beer,
